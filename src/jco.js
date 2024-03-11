@@ -6,6 +6,7 @@ import { run as runCmd, serve as serveCmd } from './cmd/run.js';
 import { parse, print, componentNew, componentEmbed, metadataAdd, metadataShow, componentWit } from './cmd/wasm-tools.js';
 import { componentize } from './cmd/componentize.js';
 import c from 'chalk-template';
+import process from "node:process";
 
 program
   .name('jco')

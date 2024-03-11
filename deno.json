@@ -1,0 +1,18 @@
+{
+    "imports": {
+        "#ora": "npm:ora",
+        "chalk-template": "npm:chalk-template",
+        "commander": "npm:commander",
+        "terser": "npm:terser",
+        "@bytecodealliance/jco": "./src/jco.js",
+        "@bytecodealliance/preview2-shim/random": "./packages/preview2-shim/lib/nodejs/random.js",
+        "@bytecodealliance/preview2-shim/io": "./packages/preview2-shim/lib/nodejs/io.js",
+        "@bytecodealliance/preview2-shim/filesystem": "./packages/preview2-shim/lib/nodejs/filesystem.js",
+        "@bytecodealliance/preview2-shim/cli": "./packages/preview2-shim/lib/nodejs/cli.js",
+        "@bytecodealliance/preview2-shim": "./packages/preview2-shim/lib/nodejs/index.js"
+      }
+    "tasks": {
+        "test": "deno run -A npm:mocha -u tdd test/test.js --timeout 10000",
+        "test2": "deno run -A npm:mocha -u tdd packages/preview2-shim/test/test.js --timeout 10000"
+    }
+}

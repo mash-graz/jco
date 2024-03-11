@@ -3,7 +3,7 @@ import { readFile, rm, writeFile, mkdtemp } from 'node:fs/promises';
 import { createServer} from 'node:http';
 import { tmpdir } from 'node:os';
 import { normalize, resolve, sep } from 'node:path';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 import { componentNew, preview1AdapterCommandPath } from '../src/api.js';
 import { exec, jcoPath } from './helpers.js';
 

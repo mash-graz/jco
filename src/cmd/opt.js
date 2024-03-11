@@ -1,7 +1,7 @@
 import { $init, tools } from '../../obj/wasm-tools.js';
 const { metadataShow, print } = tools;
-import { writeFile } from 'fs/promises';
-import { fileURLToPath } from 'url';
+import { writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import c from 'chalk-template';
 import { readFile, sizeStr, fixedDigitDisplay, table, spawnIOTmp, setShowSpinner, getShowSpinner } from '../common.js';
 import ora from '#ora';

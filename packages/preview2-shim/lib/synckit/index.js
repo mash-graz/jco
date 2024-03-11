@@ -92,10 +92,10 @@ export function createSyncFn(workerPath, debug, callbackHandler) {
 }
 
 export function runAsWorker(fn) {
-  if (!workerData) {
-    return;
-  }
-  const { workerPort, debug } = workerData;
+
+  // don't expect shared data before the first message arrives
+  // see: https://github.com/denoland/deno/issues/22672
+
   try {
     parentPort.on("message", ({ sharedBuffer, cid, args }) => {
       (async () => {
@@ -106,7 +106,7 @@ export function runAsWorker(fn) {
         } catch (error) {
           msg = { cid, error, properties: extractProperties(error) };
         }
-        workerPort.postMessage(msg);
+        workerData.workerPort.postMessage(msg);
         Atomics.add(sharedBufferView, 0, 1);
         Atomics.notify(sharedBufferView, 0);
       })();
@@ -114,7 +114,7 @@ export function runAsWorker(fn) {
   } catch (error) {
     parentPort.on("message", ({ sharedBuffer, cid }) => {
       const sharedBufferView = new Int32Array(sharedBuffer);
-      workerPort.postMessage({
+      workerData.workerPort.postMessage({
         cid,
         error,
         properties: extractProperties(error),
@@ -123,5 +123,5 @@ export function runAsWorker(fn) {
       Atomics.notify(sharedBufferView, 0);
     });
   }
-  return debug;
+  workerData && workerData.debug ;
 }

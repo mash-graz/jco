@@ -6,11 +6,12 @@ import c from 'chalk-template';
 import { readFile, sizeStr, table, spawnIOTmp, setShowSpinner, getShowSpinner } from '../common.js';
 import { optimizeComponent } from './opt.js';
 import { minify } from 'terser';
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'node:url';
 import { $init as wasmToolsInit, tools } from "../../obj/wasm-tools.js";
 const { componentEmbed, componentNew } = tools;
 import ora from '#ora';
 import { platform } from 'node:process';
+import { Buffer } from "node:buffer";
 
 const isWindows = platform === 'win32';
 

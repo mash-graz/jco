@@ -13,6 +13,7 @@ import {
 import { Readable } from "node:stream";
 import { read } from "node:fs";
 import { nextTick } from "node:process";
+import { setImmediate } from "node:timers";
 import {
   CALL_MASK,
   CALL_TYPE_MASK,
@@ -150,7 +151,11 @@ import {
 import process from "node:process";
 
 function log(msg) {
-  if (debug) process._rawDebug(msg);
+  if (debug) {
+    globalThis.Deno
+    ? console.log(msg)
+    : process._rawDebug(msg);
+  }
 }
 
 let pollCnt = 0,

@@ -250,6 +250,7 @@ export function socketTcpGetLocalAddress(id) {
   const out = {};
   const code = handle.getsockname(out);
   if (code !== 0) throw convertSocketErrorCode(-code);
+  if (typeof out.family === "number") out.family = `ipv${out.family}`;
   return ipSocketAddress(out.family.toLowerCase(), out.address, out.port);
 }
 
@@ -258,6 +259,7 @@ export function socketTcpGetRemoteAddress(id) {
   const out = {};
   const code = handle.getpeername(out);
   if (code !== 0) throw convertSocketErrorCode(-code);
+  if (typeof out.family === "number") out.family = `ipv${out.family}`;
   return ipSocketAddress(out.family.toLowerCase(), out.address, out.port);
 }
 

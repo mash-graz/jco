@@ -214,7 +214,11 @@ export function socketUdpBindFinish(id) {
   } else {
     // once bound, we can now set the options
     // since Node.js doesn't support setting them until bound
-    socket.udpSocket.setTTL(socket.unicastHopLimit);
+    try {
+      socket.udpSocket.setTTL(socket.unicastHopLimit);
+      } catch {
+        console.log("Warning: setTTL on UDP sockets ignored");
+      }
     if (socket.sendBufferSize)
       socket.udpSocket.setRecvBufferSize(socket.sendBufferSize);
     if (socket.receieveBufferSize)

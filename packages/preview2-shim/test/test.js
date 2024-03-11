@@ -14,7 +14,7 @@ function testWithGCWrap (asyncTestFn) {
   return async () => {
     await asyncTestFn();
     // Force the JS GC to run finalizers
-    gc();
+    globalThis.gc && gc();
     await new Promise(resolve => setTimeout(resolve, 200));
   };
 }
@@ -132,7 +132,7 @@ suite("Node.js Preview2", () => {
     
 
     // Force the Poll to GC so the next dispose doesn't trap
-    gc();
+    globalThis.gc && gc();
     await new Promise(resolve => setTimeout(resolve, 200));
 
     for (const item of toDispose) {
@@ -268,6 +268,8 @@ suite("Node.js Preview2", () => {
 
       strictEqual(boundAddress.tag, expectedAddress.tag);
       deepStrictEqual(boundAddress.val.address, expectedAddress.val.address);
+      // bind() is an empty function in `deno` and will only set variables.
+      // use connect() or listen() for real operating feedback
       strictEqual(boundAddress.val.port > 0, true);
     });
 
@@ -355,6 +357,7 @@ suite("Node.js Preview2", () => {
         },
       });
 
+      // TODO: deno thows error on polling here!
       ok(!pollable.ready());
       pollable.block();
       ok(pollable.ready());
@@ -477,6 +480,7 @@ suite("Node.js Preview2", () => {
       const boundAddress = socket.localAddress();
 
       strictEqual(boundAddress.tag, 'ipv4');
+      // deno on linux doesn't return a more specific local IP after UDP connect()
       notDeepStrictEqual(boundAddress.val.address, [0, 0, 0, 0]);
       strictEqual(boundAddress.val.port > 0, true);
     });
